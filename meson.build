@@ -50,8 +50,20 @@ gitattributes=get_option('sysconfdir') / 'gitattributes'
 ###############################################################################
 # Sources
 
-localized_sh = []
-localized_c  = []
+localized_c     = []
+localized_sh    = []
+localized_perl  = []
+
+
+###############################################################################
+# Sources
+
+localized_c += 'credential.c'
+
+sources_localized_c = []
+foreach s : localized_c
+    sources_localized_c +=  meson.current_source_dir() / s
+endforeach
 
 
 ###############################################################################
@@ -94,6 +106,19 @@ scripts_python = [
 ]
 
 localized_sh += scripts_sh + scripts_lib
+
+localized_perl += scripts_perl
+
+sources_localized_sh = []
+foreach s : localized_sh
+    sources_localized_sh += meson.current_source_dir() / s + '.sh'
+endforeach
+
+sources_localized_perl = []
+foreach s : localized_perl
+    sources_localized_perl += meson.current_source_dir() / s + '.perl'
+endforeach
+
 
 
 
