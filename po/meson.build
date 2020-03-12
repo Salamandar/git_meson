@@ -23,7 +23,7 @@ xgettext_flags_perl = [
 translations_command = '''
 # All modifications will be reverted at the end, so we do not
 # want to have any local change.
-if git diff --quiet HEAD || git diff --quiet --cached; then
+if ! git diff --quiet HEAD && git diff --quiet --cached; then
     echo; echo "Error: Some changes are uncommited!"; echo
     exit 1
 fi
