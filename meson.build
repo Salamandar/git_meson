@@ -68,7 +68,7 @@ endforeach
 
 ###############################################################################
 # Install scripts
-scripts_sh = [
+scripts_sh_gen = [
     'git-bisect',
     'git-difftool--helper',
     'git-filter-branch',
@@ -82,16 +82,24 @@ scripts_sh = [
     'git-submodule',
     'git-web--browse',
 ]
+scripts_sh = []
+foreach s : scripts_sh_gen
+    scripts_sh += meson.current_source_dir() / s + '.sh'
+endforeach
 
-scripts_lib = [
+scripts_lib_gen = [
     'git-mergetool--lib',
     'git-parse-remote',
     'git-rebase--preserve-merges',
     'git-sh-setup',
     'git-sh-i18n',
 ]
+scripts_lib = []
+foreach s : scripts_lib_gen
+    scripts_lib += meson.current_source_dir() / s + '.sh'
+endforeach
 
-scripts_perl = [
+scripts_perl_gen = [
     'git-add--interactive',
     'git-archimport',
     'git-cvsexportcommit',
@@ -100,26 +108,22 @@ scripts_perl = [
     'git-send-email',
     'git-svn',
 ]
+scripts_perl = []
+foreach s : scripts_perl_gen
+    scripts_perl += meson.current_source_dir() / s + '.perl'
+endforeach
 
-scripts_python = [
+scripts_py_gen = [
     'git-p4',
 ]
+scripts_py = []
+foreach s : scripts_py_gen
+    scripts_py += meson.current_source_dir() / s + '.py'
+endforeach
+
+
 
 localized_sh += scripts_sh + scripts_lib
-
 localized_perl += scripts_perl
-
-sources_localized_sh = []
-foreach s : localized_sh
-    sources_localized_sh += meson.current_source_dir() / s + '.sh'
-endforeach
-
-sources_localized_perl = []
-foreach s : localized_perl
-    sources_localized_perl += meson.current_source_dir() / s + '.perl'
-endforeach
-
-
-
 
 subdir('po')

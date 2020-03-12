@@ -23,23 +23,28 @@ xgettext_flags_perl = [
 translations_command = '''
 # All modifications will be reverted at the end, so we do not
 # want to have any local change.
-git diff --quiet HEAD && git diff --quiet --cached
+if git diff --quiet HEAD || git diff --quiet --cached; then
+    echo; echo "Error: Some changes are uncommited!"; echo
+    exit 1
+fi
 
 for s in @0@ @1@ @2@; do
     sed -i -e 's|PRItime|PRIuMAX|g' "${s}"
 done
-xgettext -ogit.pot+                  @3@ @4@ @0@
-xgettext -ogit.pot+ --join-existing  @3@ @5@ @1@
-xgettext -ogit.pot+ --join-existing  @3@ @6@ @2@
+
+out="po/git.pot"
+rm -f "${out}"
+xgettext -o"${out}"                  @3@ @4@ @0@ 2>/dev/null
+xgettext -o"${out}" --join-existing  @3@ @5@ @1@ 2>/dev/null
+xgettext -o"${out}" --join-existing  @3@ @6@ @2@ 2>/dev/null
 
 # Reverting the munged source, leaving only the updated file
 # git reset --hard
-mv git.pot+ git.pot
 
 '''.format(
-    ' '.join(sources_localized_c),
-    ' '.join(sources_localized_sh),
-    ' '.join(sources_localized_perl),
+    ' '.join(localized_c),
+    ' '.join(localized_sh),
+    ' '.join(localized_perl),
 
     ' '.join(xgettext_flags),
     ' '.join(xgettext_flags_c),
@@ -50,5 +55,5 @@ mv git.pot+ git.pot
 
 custom_target('git.pot',
     output: 'git.pot',
-    command: [ 'bash', '-c', translations_command ],
+    command: [ 'bash', '-e', '-c', translations_command ],
 )
