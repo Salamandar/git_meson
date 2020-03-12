@@ -58,12 +58,8 @@ localized_perl  = []
 ###############################################################################
 # Sources
 
-localized_c += 'credential.c'
+localized_c += meson.current_source_dir() / 'credential.c'
 
-sources_localized_c = []
-foreach s : localized_c
-    sources_localized_c +=  meson.current_source_dir() / s
-endforeach
 
 
 ###############################################################################
