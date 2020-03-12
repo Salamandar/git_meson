@@ -1,0 +1,4 @@
+
+
+option('shell_path',        type: 'string', value: '', description: 'Define SHELL_PATH to a POSIX shell if your /bin/sh is broken.')
+# option('sane_tool_path',    type: 'array',  value: [], )
